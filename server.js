@@ -1,15 +1,15 @@
+// cors-anywhere deployed as my own server due to the public demo URL
+// restricted to a certain number of uses
+
+// Listen on a specific host via the HOST environment variable
 var host = process.env.HOST || '0.0.0.0';
-var port = process.env.PORT || 8080;
+// Listen on a specific port via the PORT environment variable
+var port = process.env.PORT || '8080';
 
-// Set up rate-limiting to avoid abuse of the public CORS Anywhere server.
-var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELIMIT);
-
-var cors_proxy = require('./lib/cors-anywhere');
+var cors_proxy = require('cors-anywhere');
 cors_proxy.createServer({
-  checkRateLimit: checkRateLimit,
-  removeHeaders: ['cookie', 'cookie2'],
-  redirectSameOrigin: true,
-  httpProxyOptions: {xfwd: false},
+    removeHeaders: ['cookie', 'cookie2'],
+  redirectSameOrigin: true
 }).listen(port, host, function() {
-  console.log('Running CORS Anywhere on ' + host + ':' + port);
+    console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
